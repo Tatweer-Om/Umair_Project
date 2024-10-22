@@ -370,7 +370,9 @@ function maint(id) {
                     $(".mulkia_expiry_date").val(fetch.mulkia_expiry_date);
                     $(".vms_expiry").val(fetch.vms_expiry);
                     $(".trans_min_expiry").val(fetch.trans_min_expiry);
-                    $(".price").val(fetch.price);
+                    $(".per_day_price").val(fetch.per_day_price);
+                    $(".per_week_price").val(fetch.per_week_price);
+                    $(".per_month_price").val(fetch.per_month_price);
                     $(".notes").val(fetch.notes);
                     $(".car_id").val(fetch.car_id);
                     $(".modal-title").html('<?php echo trans('messages.update_data_lang',[],session('locale')); ?>');
@@ -603,6 +605,44 @@ function maint(id) {
     });
 
 
+    function del(id) {
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        Swal.fire({
+            title:  '<?php echo trans('messages.sure_lang',[],session('locale')); ?>',
+            text:  '<?php echo trans('messages.wanna_delete_lang',[],session('locale')); ?>',
+            type: "warning",
+            showCancelButton: !0,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText:  '<?php echo trans('messages.delete_lang',[],session('locale')); ?>',
+            confirmButtonClass: "btn btn-primary",
+            cancelButtonClass: "btn btn-danger ml-1",
+            buttonsStyling: !1
+        }).then(function (result) {
+            if (result.value) {
+                $('#global-loader').show();
+                before_submit();
+                $.ajax({
+                    url: "{{ url('delete_car') }}",
+                    type: 'POST',
+                    data: {id: id,_token: csrfToken},
+                    error: function () {
+                        $('#global-loader').hide();
+                        after_submit();
+                        show_notification('error', '<?php echo trans('messages.delete_failed_lang',[],session('locale')); ?>');
+                    },
+                    success: function (data) {
+                        $('#global-loader').hide();
+                        after_submit();
+                        $('#all_car').DataTable().ajax.reload();
+                        show_notification('success', '<?php echo trans('messages.delete_success_lang',[],session('locale')); ?>');
+                    }
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                show_notification('success', '<?php echo trans('messages.data_is_safe_lang',[],session('locale')); ?>');
+            }
+        });
+    }
 
 
 </script>

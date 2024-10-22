@@ -1,24 +1,42 @@
 <script>
-    const rentDatePicker = flatpickr("#rent_date", {
-    defaultDate: new Date(),
-    onChange: function(selectedDates, dateStr, instance) {
-      // When rent_date changes, update return_date to ensure it's always greater
-      returnDatePicker.set('minDate', dateStr);
-      calculateDays();
-      calculateTotalPrice();
-      get_dress_detail();
-    }
-  });
+    new Choices("#attributes",{removeItemButton:!0})
+    const starttime = flatpickr("#start_time", {
+        enableTime: true,
+        dateFormat: "m-d-Y H:i:S", // H for 24-hour format, S for seconds
+        defaultDate: new Date()
+    });
 
-  const returnDatePicker = flatpickr("#return_date", {
-    defaultDate: new Date(),
-    onChange: function() {
-      calculateDays();
-      calculateTotalPrice();
-      get_dress_detail();
-    }
-  });
-  calculateDays();
+    const endtime = flatpickr("#end_time", {
+        enableTime: true,
+        dateFormat: "m-d-Y H:i:S", // H for 24-hour format, S for seconds
+        defaultDate: new Date()
+    });
+    //auto complete
+
+    // $("#car_name").autocomplete({
+    //     source: function(request, response) {
+    //         $.ajax({
+    //             url: "{{ url('search_available_car') }}",
+    //             method: "POST",
+    //             dataType: "json",
+    //             headers: {
+    //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //             },
+    //             data: {
+    //                 term: request.term
+    //             },
+
+    //             success: function(data) {
+    //                 response(data.slice(0, 10));
+    //             },
+    //             error: function(xhr, status, error) {
+    //                 console.error(xhr.responseText);
+    //             }
+    //         });
+    //     },
+
+    // }).autocomplete("search", "");
+//   calculateDays();
   // Function to calculate days between rent_date and return_date
   function calculateDays() {
     const rentDate = new Date(document.getElementById("rent_date").value);
@@ -51,8 +69,8 @@
   }
 
   // Attach keyup event listeners to both price and discount inputs
-  document.querySelector(".price").addEventListener("keyup", calculateTotalPrice);
-  document.querySelector(".discount").addEventListener("keyup", calculateTotalPrice);
+//   document.querySelector(".price").addEventListener("keyup", calculateTotalPrice);
+//   document.querySelector(".discount").addEventListener("keyup", calculateTotalPrice);
   var err=0;
   function get_dress_detail(){
       var dress_id = $('#dress_name').val();
@@ -73,7 +91,7 @@
         show_notification('error','<?php echo trans('messages.select_return_date_lang',[],session('locale')); ?>');
         return false;
       }
-      
+
       var csrfToken = $('meta[name="csrf-token"]').attr('content');
       $('#global-loader').show();
       $.ajax ({
@@ -82,7 +100,7 @@
           data :   {dress_id:dress_id,rent_date:rent_date,return_date:return_date,_token: csrfToken},
           success: function(response) {
               $('#global-loader').hide();
-              
+
               if(response.status==2)
               {
                 show_notification('error','<?php echo trans('messages.validation_dress_already_booked_lang',[],session('locale')); ?>');
@@ -98,7 +116,7 @@
                 $('#dress_detail').html("");
                 $('#price').val(0.000);
                 err=1;
-                return false;   
+                return false;
               }
               err=0;
               $('#dress_detail').html(response.dress_detail);
@@ -108,7 +126,7 @@
                   selector: '.image-popup',
                   title: false
               });
-              
+
           },
           error: function(response)
           {
@@ -122,7 +140,7 @@
   //waitlist
   function add_waitlist(dress_id)
   {
-     
+
     Swal.fire({
         title: '<?php echo trans('messages.add_phone_for_availability_lang',[],session('locale')); ?> ',
         html: `
@@ -173,7 +191,7 @@
         }
     });
 
-  }   
+  }
 
   // search customer
   $(".customer_name").autocomplete({
@@ -190,8 +208,8 @@
               },
 
               success: function(data) {
-                response(data.slice(0, 10)); // Limit to 10 results 
-                  
+                response(data.slice(0, 10)); // Limit to 10 results
+
               },
               error: function(xhr, status, error) {
                   console.error(xhr.responseText);
@@ -203,7 +221,7 @@
         let discount = ui.item.discount; // This is in the format: "1-John Doe+1234567890"
         let customerId = selectedValue.split('-')[0]; // Extract customer ID (before '-')
         $('#customer_id').val(customerId);
-        $('#discount').val(discount);
+        // $('#discount').val(discount);
     }
 
   }).autocomplete("search", "");
@@ -334,7 +352,7 @@
         var email=$('.customer_email').val();
         var id=$('.customers_id').val();
 
-        
+
         if(id==''){
 
 
@@ -383,7 +401,7 @@
                         $(".add_customer")[0].reset();
                         return false;
                     }
-                    
+
                     },
                 error: function(data)
                 {
@@ -431,11 +449,11 @@
         // Check if paidAmount is greater than remainingAmount
         if (paidAmount > remainingAmount) {
             // Show error message
-            show_notification('error','<?php echo trans('messages.validation_amount_cannot_greater_remaining_lang',[],session('locale')); ?>');  
+            show_notification('error','<?php echo trans('messages.validation_amount_cannot_greater_remaining_lang',[],session('locale')); ?>');
 
             // Set bill_paid_amount to the remainingAmount
             $(this).val(remainingAmount);
-        } 
+        }
     });
 
     $('.add_payment').off().on('submit', function(e){
@@ -444,7 +462,7 @@
         var bill_paid_amount=$('.bill_paid_amount').val();
         var bill_booking_id=$('.bill_booking_id').val();
         var bill_id=$('.bill_id').val();
-        
+
         if(bill_paid_amount=="" )
         {
             show_notification('error','<?php echo trans('messages.add_paid_amount_lang',[],session('locale')); ?>'); return false;
@@ -483,8 +501,8 @@
         location.reload();
     });
 
-     
 
-    
-    
+
+
+
 </script>

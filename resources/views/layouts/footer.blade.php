@@ -42,7 +42,7 @@
             <h6 class="mt-4 mb-3 pt-2">Layout Width</h6>
 
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="layout-width" id="layout-width-fuild" value="fuild" onchange="document.body.setAttribute('data-layout-size', 'fluid')">
+                <input class="form-check-input" type="radio" name="layout-width" id="layout-width-fuild" value="fuild" onchange="document.body.setextraibute('data-layout-size', 'fluid')">
                 <label class="form-check-label" for="layout-width-fuild">Fluid</label>
             </div>
             <div class="form-check form-check-inline">
@@ -252,6 +252,14 @@
     @include('custom_js.add_model_js')
 @elseif ($controllerName == 'year')
     @include('custom_js.add_year_js')
+    @elseif ($controllerName == 'service')
+    @include('custom_js.service_js')
+    @elseif ($controllerName == 'attr')
+    @include('custom_js.att_js')
+    @elseif ($controllerName == 'extra')
+    @include('custom_js.extra_js')
+    @elseif ($controllerName == 'location')
+    @include('custom_js.location_js')
 @endif
 
 

@@ -1,23 +1,26 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CarController;
 use App\Http\Controllers\SmsController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\InsuranceCompanyController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\YearController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ColorController;
-
-use App\Http\Controllers\CarController;
+use App\Http\Controllers\ModelController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AtrrController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\ModelController;
 use App\Http\Controllers\ExpenseCategoryController;
-use App\Http\Controllers\YearController;
+use App\Http\Controllers\ExtraController;
+use App\Http\Controllers\InsuranceCompanyController;
+use App\Http\Controllers\LocationController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -100,6 +103,7 @@ Route::post('get_finish_booking_detail', [BookingController::class, 'get_finish_
 Route::post('add_finish_booking', [BookingController::class, 'add_finish_booking'])->name('add_finish_booking');
 Route::get('a4_bill/{id}', [BookingController::class, 'a4_bill'])->name('a4_bill');
 Route::get('receipt_bill/{booking_no}', [BookingController::class, 'receipt_bill'])->name('receipt_bill');
+Route::post('search_available_car', [BookingController::class, 'search_available_car'])->name('search_available_car');
 
 
 
@@ -180,3 +184,40 @@ Route::post('edit_year', [YearController::class, 'edit_year'])->name('edit_year'
 Route::post('update_year', [YearController::class, 'update_year'])->name('update_year');
 Route::post('delete_year', [YearController::class, 'delete_year'])->name('delete_year');
 Route::post('get_models', [YearController::class, 'get_models'])->name('get_models');
+
+
+
+//service
+
+Route::get('service', [ServiceController::class, 'index'])->name('service');
+Route::post('add_service', [ServiceController::class, 'add_service'])->name('add_service');
+Route::get('show_service', [ServiceController::class, 'show_service'])->name('show_service');
+Route::post('edit_service', [ServiceController::class, 'edit_service'])->name('edit_service');
+Route::post('update_service', [ServiceController::class, 'update_service'])->name('update_service');
+Route::post('delete_service', [ServiceController::class, 'delete_service'])->name('delete_service');
+Route::post('search_car', [ServiceController::class, 'search_car'])->name('search_car');
+
+//Attributes
+Route::get('attr', [AtrrController::class, 'index'])->name('attr');
+Route::post('add_attr', [AtrrController::class, 'add_attr'])->name('add_attr');
+Route::get('show_attr', [AtrrController::class, 'show_attr'])->name('show_attr');
+Route::post('edit_attr', [AtrrController::class, 'edit_attr'])->name('edit_attr');
+Route::post('update_attr', [AtrrController::class, 'update_attr'])->name('update_attr');
+Route::post('delete_attr', [AtrrController::class, 'delete_attr'])->name('delete_attr');
+
+
+//Extra
+Route::get('extra', [ExtraController::class, 'index'])->name('extra');
+Route::post('add_extra', [ExtraController::class, 'add_extra'])->name('add_extra');
+Route::get('show_extra', [ExtraController::class, 'show_extra'])->name('show_extra');
+Route::post('edit_extra', [ExtraController::class, 'edit_extra'])->name('edit_extra');
+Route::post('update_extra', [ExtraController::class, 'update_extra'])->name('update_extra');
+Route::post('delete_extra', [ExtraController::class, 'delete_extra'])->name('delete_extra');
+
+//Location
+Route::get('location', [LocationController::class, 'index'])->name('location');
+Route::post('add_location', [LocationController::class, 'add_location'])->name('add_location');
+Route::get('show_location', [LocationController::class, 'show_location'])->name('show_location');
+Route::post('edit_location', [LocationController::class, 'edit_location'])->name('edit_location');
+Route::post('update_location', [LocationController::class, 'update_location'])->name('update_location');
+Route::post('delete_location', [LocationController::class, 'delete_location'])->name('delete_location');

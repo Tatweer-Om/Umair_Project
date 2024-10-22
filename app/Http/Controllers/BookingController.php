@@ -21,6 +21,9 @@ use App\Models\DressAttribute;
 use App\Models\DressAvailability;
 use App\Http\Controllers\Controller;
 use App\Models\BookingExtendHistory;
+use App\Models\Extras;
+use App\Models\Location;
+use App\Models\Attribute;
 use Illuminate\Support\Facades\Auth;
 use App\Models\BookingDressAttribute;
 
@@ -28,8 +31,10 @@ use App\Models\BookingDressAttribute;
 class BookingController extends Controller
 {
     public function index(){
-        $view_dress= Dress::all();
-        $view_account = Account::where('account_type', 1)->get();
+         $view_account = Account::where('account_type', 1)->get();
+        $view_location = Location::All();
+        $view_extras = Extras::All();
+        $view_attributes = Attribute::All();
 
         if (!Auth::check()) {
 
@@ -40,7 +45,7 @@ class BookingController extends Controller
 
         if (in_array(3, explode(',', $user->permit_type))) {
 
-            return view ('booking.add_booking', compact('view_dress','view_account'));
+            return view ('booking.add_booking', compact('view_account','view_location','view_extras','view_attributes'));
         } else {
 
             return redirect()->route('home')->with( 'error', 'You dont have Permission');
@@ -48,6 +53,9 @@ class BookingController extends Controller
     }
     public function view_booking(){
         $view_account = Account::where('account_type', 1)->get();
+        $view_location = Location::All();
+        $view_extras = Extras::All();
+        $view_attributes = Attribute::All();
 
 
         if (!Auth::check()) {
@@ -378,7 +386,7 @@ class BookingController extends Controller
                     'label' => $customer['id'].'-'.$customer_name.'+'.$customer['customer_number'],
                     'value' => $customer['id'].'-'.$customer_name.'+'.$customer['customer_number'],
                     'customer_id' => $customer['id'],
-                    'discount' => $customer['discount'],
+                    // 'discount' => $customer['discount'],
                 ];
 
             }
@@ -1641,4 +1649,39 @@ class BookingController extends Controller
 
         return view('booking.receipt_bill', compact('total_paid','bill_data','dress_data' , 'booking_data','setting_data', 'payment_data','user', 'account_name' ));
     }
+
+    // public function search_available_car(Request $request) {
+    //     $term = $request->input('term');
+
+    //     $products = Product::where(function($query) use ($term) {
+    //         $query->where('barcode', 'like', '%' . $term . '%')
+    //               ->orWhere('product_name', 'like', '%' . $term . '%')
+    //               ->orWhere('product_name_ar', 'like', '%' . $term . '%');
+    //     })
+    //     ->where('product_type', 1)
+    //     ->get()
+    //     ->toArray();
+    //     $response = [];
+    //     if(!empty($products))
+    //     {
+    //         foreach ($products as $product) {
+
+    //             $product_name = $product['product_name'];
+    //             if(empty($product_name))
+    //             {
+    //                 $product_name = $product['product_name_ar'];
+    //             }
+    //             $response[] = [
+    //                 'label' => $product_name.'+'.$product['barcode'],
+    //                 'value' => $product['barcode'] . '+' . $product_name,
+    //                 'barcode' => $product['barcode'],
+    //             ];
+
+
+    //         }
+    //     }
+
+
+    //     return response()->json($response);
+    // }
 }

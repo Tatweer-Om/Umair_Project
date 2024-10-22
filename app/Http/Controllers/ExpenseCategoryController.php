@@ -82,7 +82,6 @@ class ExpenseCategoryController extends Controller
         $user= $data->user_name;
 
         $expense_category = new Expensecat();
-        // $expense_category->expense_category_id = genUuid() . time();
         $expense_category->expense_category_name = $request['expense_category_name'];
         $expense_category->added_by = $user;
         $expense_category->user_id = $user_id;
