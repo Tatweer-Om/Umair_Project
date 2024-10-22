@@ -21,7 +21,9 @@ return new class extends Migration
             $table->date('insurance_expiry_date')->nullable();
             $table->string('plate_no')->nullable();
             $table->string('chassis_no')->nullable();
-            $table->decimal('price', 50, 3)->nullable();
+            $table->decimal('per_day_price', 50, 3)->nullable();
+            $table->decimal('per_week_price', 50, 3)->nullable();
+            $table->decimal('per_month_price', 50, 3)->nullable();
             $table->date('mulkia_expiry_date')->nullable();
             $table->date('trans_min_expiry')->nullable();
             $table->date('vms_expiry')->nullable();

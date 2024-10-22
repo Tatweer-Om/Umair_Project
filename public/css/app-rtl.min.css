@@ -21,6 +21,8 @@ File: Main Css File
   border-bottom: 1px solid var(--bs-border-color);
 }
 
+
+
 .navbar-header {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1434,10 +1436,10 @@ body[data-layout=horizontal][data-layout-size=boxed] .container-fluid, body[data
 
 /*!
  * Waves v0.7.6
- * http://fian.my.id/Waves 
- * 
- * Copyright 2014-2018 Alfiana E. Sibuea and other contributors 
- * Released under the MIT license 
+ * http://fian.my.id/Waves
+ *
+ * Copyright 2014-2018 Alfiana E. Sibuea and other contributors
+ * Released under the MIT license
  * https://github.com/fians/Waves/blob/master/LICENSE */
 .waves-effect {
   position: relative;
@@ -3482,7 +3484,7 @@ span.flatpickr-weekday {
   color: var(--bs-body-color) !important;
 }
 
-/* 
+/*
 Datatable
 */
 div.dataTables_wrapper div.dataTables_filter {

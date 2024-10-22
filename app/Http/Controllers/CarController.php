@@ -80,14 +80,18 @@ class CarController extends Controller
 
                 $sno++;
                 $json[]= array(
-                            $sno,
-                            $value->chassis_no,
-                            $brand."<br>".$model."<br>".$year,
-                            $value->plate_no,
-                            $value->price,
-                            $add_data,
-                            $value->added_by,
-                            $modal
+                        $sno,
+                        '<strong>' . trans('messages.chassis_no_lang', [], session('locale')) . ':</strong> ' . $value->chassis_no . '<br>' .
+                        '<strong>' . trans('messages.plate_no_lang', [], session('locale')) . ':</strong> ' . $value->plate_no,
+                        '<strong>' . trans('messages.brand_lang', [], session('locale')) . ':</strong> ' . $brand . '<br>' .
+                        '<strong>' . trans('messages.model_lang', [], session('locale')) . ':</strong> ' . $model . '<br>' .
+                        '<strong>' . trans('messages.year_lang', [], session('locale')) . ':</strong> ' . $year,
+                        '<strong>' . trans('messages.per_day_price_lang', [], session('locale')) . ':</strong> ' . $value->per_day_price . '<br>' .
+                        '<strong>' . trans('messages.per_week_price_lang', [], session('locale')) . ':</strong> ' . $value->per_week_price . '<br>' .
+                        '<strong>' . trans('messages.per_month_price_lang', [], session('locale')) . ':</strong> ' . $value->per_month_price,
+                        $add_data,
+                        $value->added_by,
+                        $modal
                         );
             }
             $response = array();
@@ -133,7 +137,9 @@ class CarController extends Controller
         $car->insurance_company = $request['insurance_company'];
         $car->brand_name = $request['brand_name'];
         $car->insurance_expiry_date = $request['insurance_expiry_date'];
-        $car->price = $request['price'];
+        $car->per_day_price = $request['per_day_price'];
+        $car->per_week_price = $request['per_week_price'];
+        $car->per_month_price = $request['per_month_price'];
         $car->plate_no = $request['plate_no'];
         $car->chassis_no = $request['chassis_no'];
         $car->mulkia_expiry_date = $request['mulkia_expiry_date'];
@@ -249,7 +255,9 @@ class CarController extends Controller
             'plate_no' => $car_data->plate_no,
             'chassis_no' => $car_data->chassis_no,
             'insurance_expiry_date' => $car_data->insurance_expiry_date,
-            'price' => $car_data->price,
+            'per_day_price' => $car_data->per_day_price,
+            'per_week_price' => $car_data->per_week_price,
+            'per_month_price' => $car_data->per_month_price,
             'mulkia_expiry_date' => $car_data->mulkia_expiry_date,
             'trans_min_expiry' => $car_data->trans_min_expiry,
             'vms_expiry' => $car_data->vms_expiry,
@@ -290,7 +298,9 @@ class CarController extends Controller
         $car->insurance_company = $request['insurance_company'];
         $car->brand_name = $request['brand_name'];
         $car->insurance_expiry_date = $request['insurance_expiry_date'];
-        $car->price = $request['price'];
+        $car->per_day_price = $request['per_day_price'];
+        $car->per_week_price = $request['per_week_price'];
+        $car->per_month_price = $request['per_month_price'];
         $car->plate_no = $request['plate_no'];
         $car->chassis_no = $request['chassis_no'];
         $car->mulkia_expiry_date = $request['mulkia_expiry_date'];
@@ -644,78 +654,78 @@ class CarController extends Controller
 
     }
 
-    public function car_profile_data(Request $request)
-    {
+    // public function car_profile_data(Request $request)
+    // {
 
-        $car = Car::find($request->car_id);
-        if (!$car) {
-            return response()->json(['message' => 'car not found'], 404);
-        }
-        $bookings = Booking::with([
-            'bills',
-            'payments',
-            'car.brand',
-            'car.category',
-            'car.color',
-            'car.size'
-        ])->where('car_id', $car->id)->get();
+    //     $car = Car::find($request->car_id);
+    //     if (!$car) {
+    //         return response()->json(['message' => 'car not found'], 404);
+    //     }
+    //     $bookings = Booking::with([
+    //         'bills',
+    //         'payments',
+    //         'car.brand',
+    //         'car.category',
+    //         'car.color',
+    //         'car.size'
+    //     ])->where('car_id', $car->id)->get();
 
-        $upcoming_bookings = Booking::with([
-            'bills',
-            'payments',
-            'car.brand',
-            'car.category',
-            'car.color',
-            'car.size'
-        ])
-        ->where('car_id', $car->id)
-        ->where('rent_date', '>', Carbon::now())
-        ->get();
+    //     $upcoming_bookings = Booking::with([
+    //         'bills',
+    //         'payments',
+    //         'car.brand',
+    //         'car.category',
+    //         'car.color',
+    //         'car.size'
+    //     ])
+    //     ->where('car_id', $car->id)
+    //     ->where('rent_date', '>', Carbon::now())
+    //     ->get();
 
-        $upcoming_bookings_count= $upcoming_bookings->count();
-        $total_bookings= $bookings->count();
-        $total_amount = 0;
-        $total_panelty=0;
-        foreach ($bookings as $booking) {
+    //     $upcoming_bookings_count= $upcoming_bookings->count();
+    //     $total_bookings= $bookings->count();
+    //     $total_amount = 0;
+    //     $total_panelty=0;
+    //     foreach ($bookings as $booking) {
 
-            foreach ($booking->payments as $payment) {
-                $total_amount += $payment->paid_amount;
-            }
-        }
+    //         foreach ($booking->payments as $payment) {
+    //             $total_amount += $payment->paid_amount;
+    //         }
+    //     }
 
-        foreach ($bookings as $booking) {
-            foreach ($booking->bills as $payment) {
-                echo $payment->total_panelty;
-                $total_panelty += $payment->total_penalty;
-            }
-        }
-
-
-        $currentBookings = Booking::with([
-            'bills',
-            'payments',
-            'car.brand',
-            'car.category',
-            'car.color',
-            'car.size'
-        ])
-        ->where('car_id', $car->id)
-        ->whereDate('rent_date', '<=', Carbon::now())
-        ->whereDate('return_date', '>=', Carbon::now())
-        ->get();
-
-        return response()->json([
-            'bookings' => $bookings,
-            'up_bookings'=> $upcoming_bookings,
-            'total_amount'=>$total_amount,
-            'total_bookings'=>$total_bookings,
-            'upcoming_bookings_count'=>$upcoming_bookings_count,
-            'total_panelty'=>$total_panelty,
-            'current_bookings'=>$currentBookings
+    //     foreach ($bookings as $booking) {
+    //         foreach ($booking->bills as $payment) {
+    //             echo $payment->total_panelty;
+    //             $total_panelty += $payment->total_penalty;
+    //         }
+    //     }
 
 
-        ]);
-    }
+    //     $currentBookings = Booking::with([
+    //         'bills',
+    //         'payments',
+    //         'car.brand',
+    //         'car.category',
+    //         'car.color',
+    //         'car.size'
+    //     ])
+    //     ->where('car_id', $car->id)
+    //     ->whereDate('rent_date', '<=', Carbon::now())
+    //     ->whereDate('return_date', '>=', Carbon::now())
+    //     ->get();
+
+    //     return response()->json([
+    //         'bookings' => $bookings,
+    //         'up_bookings'=> $upcoming_bookings,
+    //         'total_amount'=>$total_amount,
+    //         'total_bookings'=>$total_bookings,
+    //         'upcoming_bookings_count'=>$upcoming_bookings_count,
+    //         'total_panelty'=>$total_panelty,
+    //         'current_bookings'=>$currentBookings
+
+
+    //     ]);
+    // }
 
     // get models
     public function get_car_models(Request $request){

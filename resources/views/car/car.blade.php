@@ -46,8 +46,7 @@
                                         <th>#</th>
                                         <th>{{ trans('messages.chassis_no_lang',[],session('locale')) }}</th>
                                         <th>{{ trans('messages.car_name_lang',[],session('locale')) }}</th>
-                                        <th>{{ trans('messages.plate_no_lang',[],session('locale')) }}</th>
-                                        <th>{{ trans('messages.price_lang',[],session('locale')) }}</th>
+                                        <th>{{ trans('messages.per_day_price_lang',[],session('locale')) }}</th>
                                         <th>{{ trans('messages.add_date_lang',[],session('locale')) }}</th>
                                         <th>{{ trans('messages.added_by_lang',[],session('locale')) }}</th>
                                         <th>{{ trans('messages.actions_lang',[],session('locale')) }}</th>
@@ -161,8 +160,20 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="mb-3">
-                                            <label for="price" class="form-label">{{ trans('messages.price_lang',[],session('locale')) }}</label>
-                                            <input class="form-control price isnumber" name="price" type="text" id="price">
+                                            <label for="per_day_price" class="form-label">{{ trans('messages.per_day_per_day_price_lang',[],session('locale')) }}</label>
+                                            <input class="form-control per_day_price isnumber" name="per_day_price" type="text" id="per_day_price">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="mb-3">
+                                            <label for="per_week_price" class="form-label">{{ trans('messages.per_week_price_lang',[],session('locale')) }}</label>
+                                            <input class="form-control per_week_price isnumber" name="per_week_price" type="text" id="per_week_price">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="mb-3">
+                                            <label for="per_month_price" class="form-label">{{ trans('messages.per_month_price_lang',[],session('locale')) }}</label>
+                                            <input class="form-control per_month_price isnumber" name="per_month_price" type="text" id="per_month_price">
                                         </div>
                                     </div>
                                     <div class="col-md-3">

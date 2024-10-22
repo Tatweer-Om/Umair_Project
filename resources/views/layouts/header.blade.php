@@ -35,6 +35,7 @@
     <!-- jQuery UI CSS (for autocomplete styling) -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
 
+
     <!-- Responsive datatable examples -->
     <link href="{{ asset('libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
 
@@ -375,7 +376,7 @@
 
                             <a href="javascript: void(0);" class="has-arrow">
                                 <i data-feather="grid"></i>
-                                <span data-key="t-apps">{{ trans('messages.menu_dress_lang',[],session('locale')) }}</span>
+                                <span data-key="t-apps">{{ trans('messages.menu_car_lang',[],session('locale')) }}</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
                                 <li>
